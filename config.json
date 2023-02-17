@@ -1,0 +1,32 @@
+{
+    "gooc": {
+        "enabled": true,
+        "gooca": true,
+        "useCustomName": true,
+        "command": "gooc",
+        "colour": [255, 255, 255]
+    },
+    "ooc": {
+        "enabled": true,
+        "ooca": true,
+        "useCustomName": true,
+        "command": "ooc",
+        "distance": 100,
+        "colour": [125, 240, 255]
+    },
+    "me": {
+        "enabled": true,
+        "useCustomName": true,
+        "command": "me",
+        "distance": 50,
+        "colour": [90, 199, 111],
+        "msPerCharacter": 250,
+        "minMs": 5000
+    },
+    "dw": {
+        "enabled": true,
+        "useCustomName": true,
+        "command": "dw",
+        "colour": [209, 40, 40]
+    }
+}
