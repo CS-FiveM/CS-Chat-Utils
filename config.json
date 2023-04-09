@@ -28,5 +28,8 @@
         "useCustomName": true,
         "command": "dw",
         "colour": [209, 40, 40]
+    },
+    "plainChat": {
+        "disable": true
     }
 }

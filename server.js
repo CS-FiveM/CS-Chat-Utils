@@ -148,3 +148,12 @@ if (config.me && config.me.enabled) {
 if (config.dw && config.dw.enabled) {
     configureDW();
 }
+
+if (config.plainChat && config.plainChat.disable) {
+    AddEventHandler("chatMessage", (source, name, message) => {
+        if (message[0] !== "/") {
+            console.log('Rejecting Plain Text Chat - ', message);
+            CancelEvent();
+        }
+    });
+}
