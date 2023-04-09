@@ -83,6 +83,8 @@ const configureOOC = () => {
     RegisterCommand(command.command, (source, args) => {
         const message = args.join(" ");
         const name = generateNameString(source, config.ooc.useCustomName);
+        const ped = GetPlayerPed(source);
+        const coords = GetEntityCoords(ped);
         emitNet('cs-chat-utils:ooc', -1, coords, name, message);
     }, false);
 
@@ -94,7 +96,7 @@ const configureOOC = () => {
         RegisterCommand(command.command + "a", (source, args) => {
             const message = args.join(" ");
             const ped = GetPlayerPed(source);
-        const coords = GetEntityCoords(ped);
+            const coords = GetEntityCoords(ped);
             emitNet('cs-chat-utils:ooc', -1, coords, "Anonymous", message);
         }, false);
         TriggerClientEvent('chat:addSuggestion', -1, `/${command.command}a`, 'Send an anonymous Out of Character message', [
