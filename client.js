@@ -32,6 +32,7 @@ const configureOOC = () => {
     });
 }
 
+var currentMessagesInView = [];
 const configureMe = () => {
     onNet("cs-chat-utils:me", (source, name, message) => {
         const otherId = GetPlayerFromServerId(source);
@@ -43,6 +44,7 @@ const configureMe = () => {
 
         const distance = GetDistanceBetweenCoords(pedPos[0], pedPos[1], pedPos[2], selfPos[0], selfPos[1], selfPos[2]);
         const los = HasEntityClearLosToEntity(ped, self, 17);
+        const messageId = Math.random();
 
         if (distance < config.me.distance && los) {
             if (tempConfig.showMeInChat) {
@@ -55,6 +57,7 @@ const configureMe = () => {
 
             var startTime = GetGameTimer();
 
+            currentMessagesInView.push(messageId);
             const tick = setTick(() => {
                 const coords = GetEntityCoords(ped);
                 const camera = GetGameplayCamCoord();
@@ -70,13 +73,14 @@ const configureMe = () => {
 
                 BeginTextCommandDisplayText("STRING");
                 AddTextComponentSubstringPlayerName(message);
-                SetDrawOrigin(coords[0], coords[1], coords[2] + 1, 0);
+                SetDrawOrigin(coords[0], coords[1], coords[2] + 1 + (currentMessagesInView.indexOf(messageId) * 0.2), 0);
                 EndTextCommandDisplayText(0, 0, 0);
                 ClearDrawOrigin();
                 
                 var delay = message.length * config.me.msPerCharacter;
                 if (delay < config.me.minMs) delay = config.me.minMs;
                 if (GetGameTimer() > (startTime + (delay))) {
+                    currentMessagesInView.splice(currentMessagesInView.indexOf(messageId), 1);
                     clearTick(tick);
                 }
             })
