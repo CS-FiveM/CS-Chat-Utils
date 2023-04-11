@@ -108,6 +108,16 @@ const configureDW = () => {
     });
 }
 
+const configureAd = () => {
+    onNet("cs-chat-utils:ad", (name, message) => {
+        TriggerEvent('chat:addMessage', {
+            color: config.ads.colour,
+            multiline: false,
+            args: [name, message]
+        })
+    });
+}
+
 if (config.gooc && config.gooc.enabled) {
     configureGOOC();
 }
@@ -122,4 +132,8 @@ if (config.me && config.me.enabled) {
 
 if (config.dw && config.dw.enabled) {
     configureDW();
+}
+
+if (config.ads && config.ads.enabled) {
+    configureAd();
 }

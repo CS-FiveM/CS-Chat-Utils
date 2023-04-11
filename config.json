@@ -31,5 +31,11 @@
     },
     "plainChat": {
         "disable": true
+    },
+    "ads": {
+        "enabled": true,
+        "useCustomName": true,
+        "command": "ad",
+        "colour": [209, 40, 40]
     }
 }

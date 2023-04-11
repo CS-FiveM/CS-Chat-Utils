@@ -25,6 +25,20 @@ const generateNameString = (id, useCustomName) => {
     return output;
 }
 
+const generateBusinessString = (id, useCustomName) => {
+    var name = GetPlayerName(id);
+
+    if (useCustomName) {
+        if (tempConfig[id]) {
+            if (tempConfig[id].ad) {
+                name = tempConfig[id].ad;
+            }
+        }
+    }
+
+    return '[AD] ' + name;
+}
+
 RegisterCommand('department', (source, args) => {
     if (tempConfig[source]) {
         tempConfig[source].department = args.join(" ");
@@ -133,6 +147,32 @@ const configureDW = () => {
     ]);
 }
 
+const configureAd = () => {
+    const command = config.ads;
+    RegisterCommand(command.command, (source, args) => {
+        const message = args.join(" ");
+        const name = generateBusinessString(source, command.useCustomName);
+        emitNet('cs-chat-utils:ad', -1, name, message);
+    });
+
+    TriggerClientEvent('chat:addSuggestion', -1, `/${command.command}`, 'Send an advert.', [
+        { name: 'message' }
+    ]);
+
+    RegisterCommand('adname', (source, args) => {
+        if (tempConfig[source]) {
+            tempConfig[source].ad = args.join(" ");
+        } else {
+            tempConfig[source] = {
+                ad: args.join(" ")
+            }
+        }
+    }, false);
+    TriggerClientEvent('chat:addSuggestion', -1, "/adname", 'Set your business name, i.e: "Example News Corp", or "Real Nightclub Co".', [
+        { name: 'Name' }
+    ]);    
+}
+
 if (config.gooc && config.gooc.enabled) {
     configureGOOC();
 }
@@ -147,6 +187,10 @@ if (config.me && config.me.enabled) {
 
 if (config.dw && config.dw.enabled) {
     configureDW();
+}
+
+if (config.ads && config.ads.enabled) {
+    configureAd();
 }
 
 if (config.plainChat && config.plainChat.disable) {
